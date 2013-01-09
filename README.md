@@ -32,7 +32,7 @@ This will output something like
 
 on Windows 7.  
 
-**file:/C:/Users/<em>YourName</em>/AppData/Roaming/.minecraft/mod/** being folder the mods will get loaded from. The Inner-Program will allow you to specify multiple URLs to load Mods from.  
+**file:/C:/Users/<em>YourName</em>/AppData/Roaming/.minecraft/mod/** is the folder the mods will get loaded from. The Inner-Program will allow you to specify multiple URLs. Even http links to jar files might be possible but are not recommended.  
 You can now create your personal batch/bash-Script to launch your mods.  
 This will skip the first step of the Minecraft-Launching
 
