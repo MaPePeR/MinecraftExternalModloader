@@ -1,5 +1,6 @@
 Minecraft External Modloader
 ============================
+[Link to minecraftforum.net-Discussion](http://www.minecraftforum.net/topic/1639674-minecraft-external-modloader-loads-mods-without-modifying-minecraftjar/)
 
 This piece of Software allows you to manipulate the behaivior of Java-Programs by *exchanging* classes with your own modified ones.  
 Which is especially used in **Minecraft-Modding** and this will be the intended use for this program, but it might be possible to use this for any other java programs as well.  
