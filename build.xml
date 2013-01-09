@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<project default="create_jar" name="">
+    <target name="create_jar">
+    	<delete dir="dist"/>
+    	<mkdir dir="dist"/>
+        <jar destfile="dist/MinecraftExternalModloader.jar">
+            <manifest>
+                <attribute name="Main-Class" value="mapeper.minecraft.modloader.GenerateStartCommand"/>
+                <attribute name="Class-Path" value=". minecraft.jar"/>
+            </manifest>
+            <fileset dir="bin"/>
+        </jar>
+    </target>
+</project>
