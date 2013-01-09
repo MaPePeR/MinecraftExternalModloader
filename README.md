@@ -10,7 +10,7 @@ The normal way of exchanging classes is to open the .jar file with an archive pr
 How to use with Minecraft
 -------------------------
 1. Install Mods
-1. Download the minecraft.jar from http://minecraft.net/download (*Show all Platforms -> Minecraft for Linux/Other -> minecraft.jar*)  
+1. Download the minecraft.jar from http://minecraft.net/download ( *Show all Platforms -> Minecraft for Linux/Other -> minecraft.jar* )  
    **WARNING:** This is a different minecraft.jar then the one you can find in the bin folder of your Minecraft installation!
 1. Place the MinecraftExternalModloader.jar next to this minecraft.jar (the launcher, not the one in bin!)
 1. Start the MinecraftExternalModloader.jar by double-clicking or with `java -jar MinecraftExternalModloader.jar` on the commandline
@@ -38,5 +38,5 @@ This will skip the first step of the Minecraft-Launching
 
 Credits
 -------
-Thanks to the great Amazon-Kindle-Hacker *ixtab* who showed me the right technique in his [JBPatcher](http://www.mobileread.com/forums/showthread.php?t=175512) [(src)](https://bitbucket.org/ixtab/jbpatcher/src/08953dac405d?at=master).
+Thanks to the great Amazon-Kindle-Hacker *ixtab* who showed me the right technique in his [JBPatcher](http://www.mobileread.com/forums/showthread.php?t=175512) (Source Code on [bitbucket.org](https://bitbucket.org/ixtab/jbpatcher/src/08953dac405d?at=master)).  
 Also thanks to the MCP-Guys for making Minecraft-Modding possible.
