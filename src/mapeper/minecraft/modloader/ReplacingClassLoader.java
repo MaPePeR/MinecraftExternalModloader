@@ -218,7 +218,8 @@ class ReplacingClassLoader extends URLClassLoader {
 //                {
 //                	System.out.println("Will not allow to patch "+name);
 //                }
-                java.security.cert.Certificate[] certs = res.getCertificates();
+                //java.security.cert.Certificate[] certs = res.getCertificates();
+                java.security.cert.Certificate[] certs = new java.security.cert.Certificate[0];
                 CodeSource cs = new CodeSource(url, certs);
                 return defineClass(name, b, 0, b.length, cs);
         }
