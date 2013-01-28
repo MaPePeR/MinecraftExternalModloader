@@ -5,9 +5,6 @@ import java.util.ArrayList;
 
 import javax.swing.JOptionPane;
 
-import net.minecraft.Util;
-import net.minecraft.Util.OS;
-
 public class GenerateStartCommand {
 
 	/**
@@ -26,7 +23,8 @@ public class GenerateStartCommand {
 			return;
 		}
 		
-		File workingDir = Util.getWorkingDirectory();
+		//File workingDir = Util.getWorkingDirectory();
+		File workingDir = (File)utilClass.getMethod("getWorkingDirectory").invoke(null);
 		//This should contain the Path to the minecraft installation on all platforms
 		String workDir = workingDir.toURI().getPath();
 		
