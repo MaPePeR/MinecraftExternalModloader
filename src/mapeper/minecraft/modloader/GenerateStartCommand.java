@@ -5,6 +5,8 @@ import java.util.ArrayList;
 
 import javax.swing.JOptionPane;
 
+import mapeper.minecraft.modloader.config.AbstractConfiguration;
+
 public class GenerateStartCommand {
 
 	/**
@@ -57,7 +59,7 @@ public class GenerateStartCommand {
         //Memory Parameter
         localArrayList.add("-Xmx1024m");
 
-        localArrayList.add("-Djava.library.path=\""+workDir+"natives\"");
+        localArrayList.add("-Djava.library.path=\""+workDir+"bin/natives\"");
         //Parameter the normal Minecraft Launcher uses:
         localArrayList.add("-Dsun.java2d.noddraw=true");
         localArrayList.add("-Dsun.java2d.d3d=false");
@@ -88,6 +90,61 @@ public class GenerateStartCommand {
 	        //Starting it!
 			localProcessBuilder.start();
         }
+	}
+	public static ArrayList<String> fromConfiguration(AbstractConfiguration conf)
+	{
+        StringBuilder classpath = new StringBuilder();
+        
+        String[] cpath = {
+        		//Path to myself:
+        		//LoaderLoader.class.getProtectionDomain().getCodeSource().getLocation().toURI().getPath(),
+        		//The classpath that i used to find the minecraft launcher
+        		//Does contain myself :D
+        		System.getProperty("java.class.path"),
+        		//Minecraft-Standard-Libs
+        		conf.getMinecraftBaseFolder()+"bin/jinput.jar",
+        		conf.getMinecraftBaseFolder()+"bin/lwjgl.jar",
+        		conf.getMinecraftBaseFolder()+"bin/lwjgl_util.jar",
+        		conf.getMinecraftBaseFolder()+"bin/minecraft.jar",
+        		};
+        String pathSep=System.getProperty("path.separator");
+        for(String s: cpath)
+        {
+        	classpath.append(s);
+        	classpath.append(pathSep);
+        }
+        
+        
+        ArrayList<String> localArrayList = new ArrayList<String>();
+       	localArrayList.add(conf.getJavaExecutable());
+        //Memory Parameter
+       	if(conf.getMaxMemory()>0)
+       		localArrayList.add("-Xmx"+conf.getMaxMemory()+"m");
+       	if(conf.getMinMemory()>0)
+       		localArrayList.add("-Xms"+conf.getMinMemory()+"m");
+
+        //localArrayList.add("-Djava.library.path=\"/C:/Users/Matthias/AppData/Roaming/.minecraft/natives\"");
+        localArrayList.add("-Djava.library.path=\""+conf.getMinecraftBaseFolder()+"bin/natives\"");
+        //Parameter the normal Minecraft Launcher uses:
+     /*   localArrayList.add("-Dsun.java2d.noddraw=true");
+        localArrayList.add("-Dsun.java2d.d3d=false");
+        localArrayList.add("-Dsun.java2d.opengl=false");
+        localArrayList.add("-Dsun.java2d.pmoffscreen=false");*/
+        //Classpath:
+        localArrayList.add("-classpath");
+        localArrayList.add(classpath.toString());
+        //Start another Class which then injects Classes from its command-line-argument-urls
+        localArrayList.add(StartMinecraft.class.getName());
+        localArrayList.add("-c");
+        localArrayList.add(conf.getClassname());
+        //The Folders to search for replacing classes:
+        localArrayList.add("file:"+conf.getMinecraftBaseFolder()+"mod/");
+        localArrayList.add("--");
+        if(!conf.getPlayerName().equals(""))
+        {
+        	localArrayList.add(conf.getPlayerName());
+        }
+        return localArrayList;
 	}
 
 }

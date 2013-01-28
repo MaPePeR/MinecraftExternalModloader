@@ -8,8 +8,9 @@ import java.awt.event.ActionListener;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 import java.io.File;
-import java.io.FileNotFoundException;
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.Arrays;
 
 import javax.swing.JFileChooser;
 import javax.swing.JFrame;
@@ -22,6 +23,7 @@ import javax.swing.JPanel;
 import javax.swing.JSplitPane;
 import javax.swing.KeyStroke;
 
+import mapeper.minecraft.modloader.GenerateStartCommand;
 import mapeper.minecraft.modloader.config.AbstractConfiguration;
 import mapeper.minecraft.modloader.config.Configuration;
 import mapeper.minecraft.modloader.config.DefaultConfiguration;
@@ -32,6 +34,8 @@ public class ConfigFrame extends JFrame implements ActionListener {
 	public static final String menuTextOpen="Open";
 	public static final String menuTextSave="Save";
 	public static final String menuTextSaveAs="Save as...";
+	public static final String menuTextStartMinecraft="Start Minecraft";
+	public static final String menuTextExportToBat="to .bat (Windows)";
 	DirtyState dirty = new DirtyState();
 	File currentFile=null;
 	JFileChooser fileChooser=new JFileChooser();
@@ -49,6 +53,8 @@ public class ConfigFrame extends JFrame implements ActionListener {
 		
 		//MenuBar
 		JMenuBar mb = new JMenuBar();
+		
+		//File Menu
 		JMenu menu = new JMenu("File");
 		JMenuItem menuNew=new JMenuItem(menuTextNew);
 		JMenuItem menuOpen=new JMenuItem(menuTextOpen);
@@ -70,6 +76,23 @@ public class ConfigFrame extends JFrame implements ActionListener {
 		menu.add(menuSave);
 		menu.add(menuSaveAs);
 		mb.add(menu);
+		
+		//Test Menu
+		JMenu test = new JMenu("Test");
+		JMenuItem menuStartConiguration = new JMenuItem(menuTextStartMinecraft);
+		
+		menuStartConiguration.setAccelerator(KeyStroke.getKeyStroke("F5"));
+		
+		menuStartConiguration.addActionListener(this);
+		test.add(menuStartConiguration);
+		mb.add(test);
+		
+		//Export Menu
+		JMenu export = new JMenu("Export");
+		JMenuItem menuExportBat = new JMenuItem(menuTextExportToBat);
+		menuExportBat.addActionListener(this);
+		export.add(menuExportBat);
+		mb.add(export);
 		this.setJMenuBar(mb);
 		//MenuBar finish
 		
@@ -121,6 +144,20 @@ public class ConfigFrame extends JFrame implements ActionListener {
 			currentFile=null;
 			if(!saveCurrentConfiguration())
 				currentFile=buf;
+		}
+		else if(e.getActionCommand()==menuTextStartMinecraft)
+		{
+			System.out.println("Starting Minecraft...");
+			try {
+				ArrayList<String> command = GenerateStartCommand.fromConfiguration(this.createConfiguration());
+				System.out.println(Arrays.deepToString(command.toArray()));
+				ProcessBuilder localProcessBuilder = new ProcessBuilder(command);
+				localProcessBuilder.inheritIO();
+				localProcessBuilder.start();
+			} catch (IOException e1) {
+				JOptionPane.showMessageDialog(this, e1.getMessage());
+				e1.printStackTrace();
+			}
 		}
 	}
 	private boolean closeConfiguration()

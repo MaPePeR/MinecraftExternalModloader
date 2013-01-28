@@ -53,7 +53,7 @@ public class FilePicker extends JPanel implements ActionListener, DocumentListen
 			int selection = fileChooser.showDialog(this, "Select...");
 			if(selection==JFileChooser.APPROVE_OPTION)
 			{
-				textField.setText(fileChooser.getSelectedFile().toString());
+				textField.setText(fileChooser.getSelectedFile().toURI().getPath());
 				textField.getInputVerifier().verify(textField);
 			}
 		}

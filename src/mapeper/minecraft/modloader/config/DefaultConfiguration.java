@@ -13,10 +13,10 @@ public class DefaultConfiguration extends AbstractConfiguration
 	{
 		this.classname="net.minecraft.LauncherFrame";
 		this.javaExecutable="java";
-		this.minMemory=1024;
-		this.maxMemory=0;
+		this.minMemory=0;
+		this.maxMemory=1024;
 		this.playerName="";
-		this.minecraftBaseFolder=getMinecraftWorkingDir().toString();
+		this.minecraftBaseFolder=getMinecraftWorkingDir().toURI().getPath();
 		
 	}
 	private static File getMinecraftWorkingDir()
