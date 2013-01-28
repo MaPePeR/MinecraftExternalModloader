@@ -1,6 +1,4 @@
 package mapeper.minecraft.modloader.config;
-
-
 public class Configuration extends AbstractConfiguration {
 	public void setJavaExecutable(String javaExecutable) {
 		this.javaExecutable = javaExecutable;
@@ -25,4 +23,5 @@ public class Configuration extends AbstractConfiguration {
 	public void setPlayerName(String playerName) {
 		this.playerName = playerName;
 	}
+
 }

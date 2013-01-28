@@ -11,7 +11,6 @@ import java.security.CodeSource;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 import java.security.PrivilegedExceptionAction;
-import java.util.Arrays;
 import java.util.Date;
 import java.util.Iterator;
 import java.util.Map;
@@ -24,6 +23,7 @@ import sun.misc.URLClassPath;
 
 import com.sun.org.apache.xerces.internal.impl.dv.util.HexBin;
 
+@SuppressWarnings({ "rawtypes", "unchecked" })
 class ReplacingClassLoader extends URLClassLoader {
 
         private static final String PACKAGE_NOFIND = getPackageName(ReplacingClassLoader.class.getName());
@@ -32,7 +32,7 @@ class ReplacingClassLoader extends URLClassLoader {
         private final URLClassPath ucp;
         private URLClassPath replacement;
         private PrintStream log;
-        private final Map avoidPackages;
+		private final Map avoidPackages;
 
         static ReplacingClassLoader inject(URL[] replacingURLs) throws Exception {
                 ClassLoader replacedLoader = ReplacingClassLoader.class.getClassLoader();
@@ -77,7 +77,7 @@ class ReplacingClassLoader extends URLClassLoader {
                 onInit();
         }
 
-        private Map getPackagesToAvoid(ClassLoader child) {
+		private Map getPackagesToAvoid(ClassLoader child) {
                 try {
                         Field pkg = ClassLoader.class.getDeclaredField("packages");
                         pkg.setAccessible(true);
@@ -98,7 +98,7 @@ class ReplacingClassLoader extends URLClassLoader {
                 return System.err;
         }
 
-        private void onInit() {
+		private void onInit() {
                 log("");
                 log("Log start timestamp: " + new Date());
                 log("Bootstrap OK, PatchingClassLoader instantiated");
@@ -110,7 +110,7 @@ class ReplacingClassLoader extends URLClassLoader {
                 log("");
         }
 
-        protected Class findClass(final String name) throws ClassNotFoundException {
+		protected Class findClass(final String name) throws ClassNotFoundException {
 //        	System.out.println("findClass("+name);
                 if (name.startsWith(PACKAGE_NOFIND))
                         throw new ClassNotFoundException();
@@ -262,7 +262,7 @@ class ReplacingClassLoader extends URLClassLoader {
         		try {
 					input=r.getBytes();
 				} catch (IOException e) {
-					// TODO Auto-generated catch block
+
 					e.printStackTrace();
 				}
         		System.out.println("OLD: "+HexBin.encode(oldmd5));

@@ -11,7 +11,7 @@
                 <attribute name="Main-Class" value="mapeper.minecraft.modloader.GenerateStartCommand"/>
                 <attribute name="Class-Path" value=". minecraft.jar"/>
             </manifest>
-            <fileset dir="bin"/>
+            <fileset dir="bin" excludes="**/tests/*"/>
         </jar>
     </target>
 </project>

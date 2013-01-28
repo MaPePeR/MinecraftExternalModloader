@@ -55,10 +55,7 @@ public class GenerateStartCommand {
         
         
         ArrayList<String> localArrayList = new ArrayList<String>();
-        if(Util.getPlatform()==OS.WINDOWS)
-        	localArrayList.add("javaw");
-        else
-        	localArrayList.add("java");
+       	localArrayList.add("java");
         //Memory Parameter
         localArrayList.add("-Xmx1024m");
 
