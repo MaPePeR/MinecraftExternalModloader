@@ -8,7 +8,7 @@
     	<mkdir dir="dist"/>
         <jar destfile="dist/MinecraftExternalModloader.jar">
             <manifest>
-                <attribute name="Main-Class" value="mapeper.minecraft.modloader.GenerateStartCommand"/>
+                <attribute name="Main-Class" value="mapeper.minecraft.modloader.config.gui.ConfigFrame"/>
                 <attribute name="Class-Path" value=". minecraft.jar"/>
             </manifest>
             <fileset dir="bin" excludes="**/tests/*"/>
