@@ -5,6 +5,7 @@ import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.Properties;
 
@@ -78,6 +79,24 @@ public abstract class AbstractConfiguration {
 		javaExecutable=prop.getProperty("mem.java");
 		minecraftBaseFolder=prop.getProperty("mem.baseFolder");
 		playerName=prop.getProperty("mem.playername");
+		if(prop.getProperty("mem.mods")!=null)
+		{
+			String[] modBuf = prop.getProperty("mem.mods").split("\n");
+			URL[] mods = new URL[modBuf.length];
+			for(int i=0;i<mods.length;i++)
+			{
+				try {
+					mods[i]=new URL(modBuf[i]);
+				} catch (MalformedURLException e) {
+					e.printStackTrace();
+					throw new RuntimeException("Invalid URL in File!");
+				}
+			}
+			this.modURLs=mods;
+		}
+		else
+			throw new RuntimeException("Could not read File");
+
 		checkForNulls();
 	}
 
@@ -100,6 +119,10 @@ public abstract class AbstractConfiguration {
 		prop.setProperty("mem.java", ""+javaExecutable);
 		prop.setProperty("mem.baseFolder", minecraftBaseFolder);
 		prop.setProperty("mem.playername", playerName);
+		StringBuilder sb = new StringBuilder();
+		for(URL u: modURLs)
+			sb.append(u.toString()).append("\n");
+		prop.setProperty("mem.mods", sb.toString());
 		return prop;
 	}
 

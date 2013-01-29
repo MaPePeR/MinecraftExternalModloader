@@ -136,6 +136,9 @@ public class ModConfigGUI extends JPanel implements ActionListener {
 				}
 			}
 		}
+		else
+			return;
+		dirty.setDirty();
 	}
 	public void setModURLs(URL[] modURLs)
 	{
@@ -145,6 +148,8 @@ public class ModConfigGUI extends JPanel implements ActionListener {
 	}
 	public URL[] getModURLS()
 	{
-		return (URL[]) listModel.toArray();
+		URL[] urls = new URL[listModel.size()];
+		listModel.copyInto(urls);
+		return urls;
 	}
 }
