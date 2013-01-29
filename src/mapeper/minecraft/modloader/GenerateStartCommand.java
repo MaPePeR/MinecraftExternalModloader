@@ -2,6 +2,7 @@ package mapeper.minecraft.modloader;
 
 import java.io.File;
 import java.util.ArrayList;
+import java.util.Arrays;
 
 import javax.swing.JOptionPane;
 
@@ -145,6 +146,32 @@ public class GenerateStartCommand {
         	localArrayList.add(conf.getPlayerName());
         }
         return localArrayList;
+	}
+	
+	//Sorted!
+	private static final char[] safechars = "%+,-./0123456789:=@ABCDEFGHIJKLMNOPQRSTUVWXYZ_abcdefghijklmnopqrstuvwxyz".toCharArray();
+	public static String stringify(String[] command)
+	{
+		StringBuilder sb = new StringBuilder();
+		for(String s:command)
+			sb.append(quote(s)).append(" ");
+		return sb.toString();
+		
+	}
+	private static String quote(String file)
+	{
+		return '"'+file+'"';
+		//Something is broken:
+		/*for(char c:file.toCharArray())
+		{
+			if(Arrays.binarySearch(safechars, c)<0)
+			{//file does contain an unsafe char
+				return "'" + file.replace("'", "'\"'\"'") + "'";
+			}
+		}
+		if(file=="")
+			return "''";
+		return file;*/
 	}
 
 }

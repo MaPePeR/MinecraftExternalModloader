@@ -27,15 +27,18 @@ import mapeper.minecraft.modloader.GenerateStartCommand;
 import mapeper.minecraft.modloader.config.AbstractConfiguration;
 import mapeper.minecraft.modloader.config.Configuration;
 import mapeper.minecraft.modloader.config.DefaultConfiguration;
+import mapeper.minecraft.modloader.config.export.BatExporter;
+import mapeper.minecraft.modloader.config.export.Exporter;
+import mapeper.minecraft.modloader.config.export.ShExporter;
 
 public class ConfigFrame extends JFrame implements ActionListener {
 	public static void main(String[] s)	{new ConfigFrame();}
+	public static final Exporter[] exporters = new Exporter[]{new BatExporter(), new ShExporter()};
 	public static final String menuTextNew="New";
 	public static final String menuTextOpen="Open";
 	public static final String menuTextSave="Save";
 	public static final String menuTextSaveAs="Save as...";
 	public static final String menuTextStartMinecraft="Start Minecraft";
-	public static final String menuTextExportToBat="to .bat (Windows)";
 	DirtyState dirty = new DirtyState();
 	File currentFile=null;
 	JFileChooser fileChooser=new JFileChooser();
@@ -89,9 +92,13 @@ public class ConfigFrame extends JFrame implements ActionListener {
 		
 		//Export Menu
 		JMenu export = new JMenu("Export");
-		JMenuItem menuExportBat = new JMenuItem(menuTextExportToBat);
-		menuExportBat.addActionListener(this);
-		export.add(menuExportBat);
+		JMenuItem item;
+		for(int i=0;i<exporters.length;i++)
+		{
+			item = new JMenuItem("Export to ."+exporters[i].getExtension()); 
+			item.addActionListener(new ExportActionListener(exporters[i],this));
+			export.add(item);
+		}
 		mb.add(export);
 		this.setJMenuBar(mb);
 		//MenuBar finish
@@ -232,7 +239,7 @@ public class ConfigFrame extends JFrame implements ActionListener {
 		}
 		
 	}
-	private AbstractConfiguration createConfiguration()
+	public AbstractConfiguration createConfiguration()
 	{
 		Configuration conf = new Configuration();
 		conf.setClassname(nameAndClassChooser.getClassname());
