@@ -1,6 +1,8 @@
 package mapeper.minecraft.modloader.config;
 
 import java.io.File;
+import java.net.MalformedURLException;
+import java.net.URL;
 
 public class DefaultConfiguration extends AbstractConfiguration
 {
@@ -17,6 +19,11 @@ public class DefaultConfiguration extends AbstractConfiguration
 		this.maxMemory=1024;
 		this.playerName="";
 		this.minecraftBaseFolder=getMinecraftWorkingDir().toURI().getPath();
+		try {
+			this.modURLs=new URL[]{new URL("file://"+this.minecraftBaseFolder+"mod/")};
+		} catch (MalformedURLException e) {
+			e.printStackTrace();
+		}
 		
 	}
 	private static File getMinecraftWorkingDir()

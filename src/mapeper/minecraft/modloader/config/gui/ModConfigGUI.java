@@ -1,13 +1,150 @@
 package mapeper.minecraft.modloader.config.gui;
 
-import javax.swing.BorderFactory;
-import javax.swing.JPanel;
+import java.awt.BorderLayout;
+import java.awt.GridBagConstraints;
+import java.awt.GridBagLayout;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.net.MalformedURLException;
+import java.net.URL;
 
-public class ModConfigGUI extends JPanel {
+import javax.swing.BorderFactory;
+import javax.swing.DefaultListModel;
+import javax.swing.JButton;
+import javax.swing.JFileChooser;
+import javax.swing.JList;
+import javax.swing.JOptionPane;
+import javax.swing.JPanel;
+import javax.swing.JScrollPane;
+import javax.swing.ListSelectionModel;
+
+import mapeper.minecraft.modloader.config.DefaultConfiguration;
+
+public class ModConfigGUI extends JPanel implements ActionListener {
 	DirtyState dirty;
+	
+	DefaultListModel<URL> listModel = new DefaultListModel<URL>();
+	JList<URL> modList=new JList<URL>(listModel);
+	JScrollPane scrollPane= new JScrollPane(modList);
+	JFileChooser fileChooser = new JFileChooser();
+	
+	JButton deleteButton=new JButton("DELETE");
+	JButton moveUpButton=new JButton(" UP ");
+	JButton moveDownButton=new JButton("DOWN");
+	JButton addURLButton=new JButton("Add URL");
+	JButton addFileButton=new JButton("Add File");
 	public ModConfigGUI(DirtyState dirty)
 	{
 		this.dirty=dirty;
-		this.setBorder(BorderFactory.createTitledBorder("Mod Locations"));
+		this.setLayout(new GridBagLayout());
+		
+		fileChooser.setFileSelectionMode(JFileChooser.FILES_AND_DIRECTORIES);
+		fileChooser.setFileHidingEnabled(false);
+		
+		modList.setSelectionMode(ListSelectionModel.SINGLE_INTERVAL_SELECTION);
+		
+		deleteButton.addActionListener(this);
+		moveUpButton.addActionListener(this);
+		moveDownButton.addActionListener(this);
+		addURLButton.addActionListener(this);
+		addFileButton.addActionListener(this);
+		
+		
+		
+		GridBagConstraints c = new GridBagConstraints();
+		
+		c.weightx=1;
+		c.fill=GridBagConstraints.HORIZONTAL;
+		c.gridy=1;
+		c.gridx=GridBagConstraints.RELATIVE;
+		this.add(deleteButton,c);
+		this.add(moveDownButton,c);
+		this.add(moveUpButton,c);
+		this.add(addURLButton,c);
+		this.add(addFileButton,c);
+		
+		c.fill=GridBagConstraints.BOTH;
+		c.gridx=0; c.gridy=0;
+		c.weightx=1;c.weighty=1;
+		c.gridwidth=5;
+		this.add(scrollPane, c);
+		try {
+			listModel.addElement(new URL("file://"+DefaultConfiguration.getInstance().getMinecraftBaseFolder()+"/1/"));
+			listModel.addElement(new URL("file://"+DefaultConfiguration.getInstance().getMinecraftBaseFolder()+"/2/"));
+			listModel.addElement(new URL("http://example.org/bla"));
+		} catch (MalformedURLException e) {
+			e.printStackTrace();
+		}
+	}
+	@Override
+	public void actionPerformed(ActionEvent e) {
+		Object s =e.getSource();
+		if(s==deleteButton)
+		{
+			int min=modList.getMinSelectionIndex();
+			for(int i=modList.getMaxSelectionIndex();i>=min;i--)
+			{
+				listModel.remove(i);
+			}
+		}
+		else if(s==moveUpButton)
+		{
+			if(modList.getMinSelectionIndex()>0)
+			{
+				int maxSelection=modList.getMaxSelectionIndex();
+				int minSelection=modList.getMinSelectionIndex();
+				URL toMove = listModel.remove(modList.getMinSelectionIndex()-1);
+				listModel.add(modList.getMaxSelectionIndex()+1, toMove);
+				modList.setSelectionInterval(minSelection-1, maxSelection-1);
+			}
+		}
+		else if(s==moveDownButton)
+		{
+			if(modList.getMaxSelectionIndex()+1<listModel.getSize())
+			{
+				int maxSelection=modList.getMaxSelectionIndex();
+				int minSelection=modList.getMinSelectionIndex();
+				URL toMove = listModel.remove(maxSelection+1);
+				listModel.add(minSelection, toMove);
+				modList.setSelectionInterval(minSelection+1, maxSelection+1);
+			}
+		}
+		else if(s==addFileButton)
+		{
+			int selection = fileChooser.showDialog(this, "Select");
+			if(selection==JFileChooser.APPROVE_OPTION)
+			{
+				try {
+					listModel.addElement(fileChooser.getSelectedFile().toURI().toURL());
+				} catch (MalformedURLException e1) {
+					JOptionPane.showMessageDialog(this, e1.getMessage(),"Error",JOptionPane.ERROR_MESSAGE);
+					e1.printStackTrace();
+				}
+			}
+		}
+		else if(s==addURLButton)
+		{
+			String url = JOptionPane.showInputDialog(this, "Type URL", "");
+			if(url!=null)
+			{
+				try
+				{
+					listModel.addElement(new URL(url));
+				} catch (MalformedURLException e1) {
+					JOptionPane.showMessageDialog(this, e1.getMessage(),"Error",JOptionPane.ERROR_MESSAGE);
+					e1.printStackTrace();
+				}
+			}
+		}
+	}
+	public void setModURLs(URL[] modURLs)
+	{
+		listModel.clear();
+		for(URL element:modURLs)
+			listModel.addElement(element);
+	}
+	public URL[] getModURLS()
+	{
+		return (URL[]) listModel.toArray();
 	}
 }

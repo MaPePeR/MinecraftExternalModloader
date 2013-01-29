@@ -5,6 +5,7 @@ import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.net.URL;
 import java.util.Properties;
 
 public abstract class AbstractConfiguration {
@@ -15,6 +16,7 @@ public abstract class AbstractConfiguration {
 	protected int maxMemory;
 	protected String classname;
 	protected String playerName;
+	protected URL[] modURLs;
 
 	public static Configuration loadFromFile(File f)
 			throws FileNotFoundException, IOException {
@@ -58,6 +60,10 @@ public abstract class AbstractConfiguration {
 
 	public String getPlayerName() {
 		return playerName;
+	}
+	public URL[] getModURLs()
+	{
+		return modURLs;
 	}
 
 	public void fromProperties(Properties prop) {

@@ -1,4 +1,7 @@
 package mapeper.minecraft.modloader.config;
+
+import java.net.URL;
+
 public class Configuration extends AbstractConfiguration {
 	public void setJavaExecutable(String javaExecutable) {
 		this.javaExecutable = javaExecutable;
@@ -22,6 +25,10 @@ public class Configuration extends AbstractConfiguration {
 
 	public void setPlayerName(String playerName) {
 		this.playerName = playerName;
+	}
+	public void setModURLs(URL[] modURLs)
+	{
+		this.modURLs=modURLs;
 	}
 
 }
