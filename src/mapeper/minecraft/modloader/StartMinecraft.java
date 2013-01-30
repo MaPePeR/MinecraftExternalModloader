@@ -4,10 +4,16 @@ import java.lang.reflect.Method;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.Arrays;
+import java.util.Iterator;
 import java.util.LinkedList;
+
+import mapeper.minecraft.modloader.plugin.MEModloaderPlugin;
+import mapeper.minecraft.modloader.plugin.PluginFailedException;
 public class StartMinecraft {
 	public static void main(String[] args) {
 		LinkedList<URL> urls = new LinkedList<URL>();
+		LinkedList<String> pluginClasses = new LinkedList<String>();
+		LinkedList<String> pluginArguments = new LinkedList<String>();
 		String classname = "net.minecraft.LauncherFrame";
 		int argumentstart=args.length;
 		if(args.length>=1)
@@ -33,7 +39,27 @@ public class StartMinecraft {
 			}
 			for(;i<args.length;i++)
 			{
-				if(args[i].equals("--"))
+				if(args[i].equals("-p"))
+				{
+					if(i+1<args.length)
+					{
+						String[] pluginString = args[i+1].split("~",2);
+						if(pluginString.length!=2)
+							System.err.println("Error Parsing PluginString");
+						else
+						{
+							pluginClasses.add(pluginString[0]);
+							pluginArguments.add(pluginString[1]);
+						}
+						i++;
+						continue;
+					}
+					else
+					{
+						System.err.println("Missing Argument for -p");
+					}
+				}
+				else if(args[i].equals("--"))
 				{
 					argumentstart=i+1;
 					break;
@@ -61,6 +87,34 @@ public class StartMinecraft {
 		}
 		//and then start the normal launcher
 		//System.out.println(Arrays.deepToString(urlarray));
+		
+		Iterator<String> pluginClassIterator = pluginClasses.iterator();
+		Iterator<String> pluginArgumentsIterator = pluginArguments.iterator();
+		ClassLoader classLoader = StartMinecraft.class.getClassLoader();
+		MEModloaderPlugin pluginInstance;
+		while(pluginClassIterator.hasNext()&&pluginArgumentsIterator.hasNext())
+		{
+			String pluginClassName = pluginClassIterator.next();
+			String pluginArgumentString = pluginArgumentsIterator.next();
+			try {
+				System.out.println("Loading plugin: "+pluginClassName);
+				Class<?> pluginClass=classLoader.loadClass(pluginClassName);
+				pluginInstance = (MEModloaderPlugin)pluginClass.newInstance();
+				String operationClass = pluginInstance.getPluginClass();
+				System.out.println("Loading Class for Plugin: "+operationClass);
+				pluginInstance.operate(StartMinecraft.class.getClassLoader().loadClass(operationClass), pluginArgumentString);
+			} catch (ClassNotFoundException e) {
+				e.printStackTrace();
+			} catch (InstantiationException e) {
+				e.printStackTrace();
+			} catch (IllegalAccessException e) {
+				e.printStackTrace();
+			} catch(ClassCastException e) {
+				e.printStackTrace();
+			} catch (PluginFailedException e) {
+				e.printStackTrace();
+			}
+		}
 		
 		startMainMethod(classname, Arrays.copyOfRange(args, argumentstart, args.length));
 		//.main(new String[0]);
