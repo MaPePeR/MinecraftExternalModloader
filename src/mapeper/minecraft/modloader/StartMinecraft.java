@@ -7,8 +7,8 @@ import java.util.Arrays;
 import java.util.Iterator;
 import java.util.LinkedList;
 
-import mapeper.minecraft.modloader.plugin.MEModloaderPlugin;
-import mapeper.minecraft.modloader.plugin.PluginFailedException;
+import memplugin.MEModloaderPlugin;
+import memplugin.PluginFailedException;
 public class StartMinecraft {
 	public static void main(String[] args) {
 		LinkedList<URL> urls = new LinkedList<URL>();
@@ -39,39 +39,28 @@ public class StartMinecraft {
 			}
 			for(;i<args.length;i++)
 			{
-				if(args[i].equals("-p"))
-				{
-					if(i+1<args.length)
-					{
-						String[] pluginString = args[i+1].split("~",2);
-						if(pluginString.length!=2)
-							System.err.println("Error Parsing PluginString");
-						else
-						{
-							pluginClasses.add(pluginString[0]);
-							pluginArguments.add(pluginString[1]);
-						}
-						i++;
-						continue;
-					}
-					else
-					{
-						System.err.println("Missing Argument for -p");
-					}
-				}
-				else if(args[i].equals("--"))
+				if(args[i].equals("--"))
 				{
 					argumentstart=i+1;
 					break;
 				}
-				try
+				if(args[i].startsWith("plugin://"))
 				{
-					urls.add(new URL(args[i]));
+					String[] pluginString = args[i].substring("plugin://".length()).split("/",2);
+					pluginClasses.add(pluginString[0]);
+					pluginArguments.add(pluginString.length==2?pluginString[1]:null);
 				}
-				catch(MalformedURLException e)
+				else
 				{
-					System.err.println("Error while parsing Argument "+i);
-					e.printStackTrace();
+					try
+					{
+						urls.add(new URL(args[i]));
+					}
+					catch(MalformedURLException e)
+					{
+						System.err.println("Error while parsing Argument "+i);
+						e.printStackTrace();
+					}
 				}
 			}
 		}
