@@ -98,8 +98,8 @@ public class MemoryConfigGUI extends JPanel implements ActionListener {
 		if(min==DefaultConfiguration.getInstance().getMinMemory()&&max==DefaultConfiguration.getInstance().getMaxMemory())
 		{
 			dropDown.setSelectedIndex(0);
-			minSpinner.setValue(1024);
-			maxSpinner.setValue(0);
+			minSpinner.setValue(DefaultConfiguration.getInstance().getMinMemory());
+			maxSpinner.setValue(DefaultConfiguration.getInstance().getMaxMemory());
 			setFieldsEnabled(false);
 		}
 		//Java-Default
