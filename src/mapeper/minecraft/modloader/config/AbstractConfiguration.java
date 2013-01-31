@@ -17,7 +17,7 @@ public abstract class AbstractConfiguration {
 	protected int maxMemory;
 	protected String classname;
 	protected String playerName;
-	protected URL[] modURLs;
+	protected String[] modURLs;
 
 	public static Configuration loadFromFile(File f)
 			throws FileNotFoundException, IOException {
@@ -62,7 +62,7 @@ public abstract class AbstractConfiguration {
 	public String getPlayerName() {
 		return playerName;
 	}
-	public URL[] getModURLs()
+	public String[] getModURLs()
 	{
 		return modURLs;
 	}
@@ -82,15 +82,10 @@ public abstract class AbstractConfiguration {
 		if(prop.getProperty("mem.mods")!=null)
 		{
 			String[] modBuf = prop.getProperty("mem.mods").split("\n");
-			URL[] mods = new URL[modBuf.length];
+			String[] mods = new String[modBuf.length];
 			for(int i=0;i<mods.length;i++)
 			{
-				try {
-					mods[i]=new URL(modBuf[i]);
-				} catch (MalformedURLException e) {
-					e.printStackTrace();
-					throw new RuntimeException("Invalid URL in File!");
-				}
+				mods[i]=modBuf[i];
 			}
 			this.modURLs=mods;
 		}
@@ -120,8 +115,8 @@ public abstract class AbstractConfiguration {
 		prop.setProperty("mem.baseFolder", minecraftBaseFolder);
 		prop.setProperty("mem.playername", playerName);
 		StringBuilder sb = new StringBuilder();
-		for(URL u: modURLs)
-			sb.append(u.toString()).append("\n");
+		for(String u: modURLs)
+			sb.append(u).append("\n");
 		prop.setProperty("mem.mods", sb.toString());
 		return prop;
 	}

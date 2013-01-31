@@ -23,8 +23,8 @@ import mapeper.minecraft.modloader.config.DefaultConfiguration;
 public class ModConfigGUI extends JPanel implements ActionListener {
 	DirtyState dirty;
 	
-	DefaultListModel<URL> listModel = new DefaultListModel<URL>();
-	JList<URL> modList=new JList<URL>(listModel);
+	DefaultListModel<String> listModel = new DefaultListModel<String>();
+	JList<String> modList=new JList<String>(listModel);
 	JScrollPane scrollPane= new JScrollPane(modList);
 	JFileChooser fileChooser = new JFileChooser();
 	
@@ -68,13 +68,7 @@ public class ModConfigGUI extends JPanel implements ActionListener {
 		c.weightx=1;c.weighty=1;
 		c.gridwidth=5;
 		this.add(scrollPane, c);
-		try {
-			listModel.addElement(new URL("file://"+DefaultConfiguration.getInstance().getMinecraftBaseFolder()+"/1/"));
-			listModel.addElement(new URL("file://"+DefaultConfiguration.getInstance().getMinecraftBaseFolder()+"/2/"));
-			listModel.addElement(new URL("http://example.org/bla"));
-		} catch (MalformedURLException e) {
-			e.printStackTrace();
-		}
+
 	}
 	@Override
 	public void actionPerformed(ActionEvent e) {
@@ -93,7 +87,7 @@ public class ModConfigGUI extends JPanel implements ActionListener {
 			{
 				int maxSelection=modList.getMaxSelectionIndex();
 				int minSelection=modList.getMinSelectionIndex();
-				URL toMove = listModel.remove(modList.getMinSelectionIndex()-1);
+				String toMove = listModel.remove(modList.getMinSelectionIndex()-1);
 				listModel.add(modList.getMaxSelectionIndex()+1, toMove);
 				modList.setSelectionInterval(minSelection-1, maxSelection-1);
 			}
@@ -104,7 +98,7 @@ public class ModConfigGUI extends JPanel implements ActionListener {
 			{
 				int maxSelection=modList.getMaxSelectionIndex();
 				int minSelection=modList.getMinSelectionIndex();
-				URL toMove = listModel.remove(maxSelection+1);
+				String toMove = listModel.remove(maxSelection+1);
 				listModel.add(minSelection, toMove);
 				modList.setSelectionInterval(minSelection+1, maxSelection+1);
 			}
@@ -115,7 +109,7 @@ public class ModConfigGUI extends JPanel implements ActionListener {
 			if(selection==JFileChooser.APPROVE_OPTION)
 			{
 				try {
-					listModel.addElement(fileChooser.getSelectedFile().toURI().toURL());
+					listModel.addElement(fileChooser.getSelectedFile().toURI().toURL().toString());
 				} catch (MalformedURLException e1) {
 					JOptionPane.showMessageDialog(this, e1.getMessage(),"Error",JOptionPane.ERROR_MESSAGE);
 					e1.printStackTrace();
@@ -127,28 +121,22 @@ public class ModConfigGUI extends JPanel implements ActionListener {
 			String url = JOptionPane.showInputDialog(this, "Type URL", "");
 			if(url!=null)
 			{
-				try
-				{
-					listModel.addElement(new URL(url));
-				} catch (MalformedURLException e1) {
-					JOptionPane.showMessageDialog(this, e1.getMessage(),"Error",JOptionPane.ERROR_MESSAGE);
-					e1.printStackTrace();
-				}
+				listModel.addElement(url);
 			}
 		}
 		else
 			return;
 		dirty.setDirty();
 	}
-	public void setModURLs(URL[] modURLs)
+	public void setModURLs(String[] strings)
 	{
 		listModel.clear();
-		for(URL element:modURLs)
+		for(String element:strings)
 			listModel.addElement(element);
 	}
-	public URL[] getModURLS()
+	public String[] getModURLS()
 	{
-		URL[] urls = new URL[listModel.size()];
+		String[] urls = new String[listModel.size()];
 		listModel.copyInto(urls);
 		return urls;
 	}

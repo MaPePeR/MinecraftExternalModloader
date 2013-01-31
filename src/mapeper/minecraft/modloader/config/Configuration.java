@@ -26,7 +26,7 @@ public class Configuration extends AbstractConfiguration {
 	public void setPlayerName(String playerName) {
 		this.playerName = playerName;
 	}
-	public void setModURLs(URL[] modURLs)
+	public void setModURLs(String[] modURLs)
 	{
 		this.modURLs=modURLs;
 	}

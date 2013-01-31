@@ -19,11 +19,7 @@ public class DefaultConfiguration extends AbstractConfiguration
 		this.maxMemory=1024;
 		this.playerName="";
 		this.minecraftBaseFolder=getMinecraftWorkingDir().toURI().getPath();
-		try {
-			this.modURLs=new URL[]{new URL("file://"+this.minecraftBaseFolder+"mod/")};
-		} catch (MalformedURLException e) {
-			e.printStackTrace();
-		}
+		this.modURLs=new String[]{"file://"+this.minecraftBaseFolder+"mod/"};
 		
 	}
 	private static File getMinecraftWorkingDir()
