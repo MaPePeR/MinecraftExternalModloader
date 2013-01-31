@@ -1,4 +1,4 @@
-package mapeper.minecraft.modloader.plugin;
+package memplugin;
 
 public class PluginFailedException extends Exception {
 

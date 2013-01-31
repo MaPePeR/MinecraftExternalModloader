@@ -1,4 +1,4 @@
-package mapeper.minecraft.modloader.plugin;
+package memplugin;
 import java.io.File;
 import java.lang.reflect.Field;
 import java.lang.reflect.Modifier;
@@ -32,7 +32,10 @@ public class PortableMinecraftPlugin implements MEModloaderPlugin {
 				try {
 					Field f = possibleFields.get(0);
 					f.setAccessible(true);
+					if(f.get(null)!=null)
+						System.err.println("WARNING: Overwriting Field! Value: "+f.get(null));
 					f.set(null, dir);
+					System.out.println("Modified Field: "+f);
 					System.out.println("Minecraft should now save stuff in  "+argument);
 				} catch (IllegalArgumentException e) {
 					throw new PluginFailedException(e);

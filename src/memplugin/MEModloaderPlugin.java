@@ -1,4 +1,4 @@
-package mapeper.minecraft.modloader.plugin;
+package memplugin;
 
 /**
  * Interface for defining Plugins that will operate on uninstantiated Classes.<br/>
