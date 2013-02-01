@@ -139,7 +139,11 @@ public class GenerateStartCommand {
         localArrayList.add("-c");
         localArrayList.add(conf.getClassname());
         //The Folders to search for replacing classes:
-        localArrayList.add("file:"+conf.getMinecraftBaseFolder()+"mod/");
+        //localArrayList.add("file:"+conf.getMinecraftBaseFolder()+"mod/");
+        for(String s: conf.getModURLs())
+        {
+        	localArrayList.add(s);
+        }
         localArrayList.add("--");
         if(!conf.getPlayerName().equals(""))
         {
