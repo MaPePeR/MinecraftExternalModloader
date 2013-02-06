@@ -58,7 +58,7 @@ public class ExportActionListener implements ActionListener {
 		}
 		@Override
 		public boolean accept(File pathname) {
-			return pathname.toString().endsWith(extension);
+			return pathname.isDirectory()||pathname.toString().endsWith(extension);
 		}
 		@Override
 		public String getDescription() {
