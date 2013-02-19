@@ -2,7 +2,6 @@ package mapeper.minecraft.modloader;
 
 import java.io.File;
 import java.util.ArrayList;
-import java.util.Arrays;
 
 import javax.swing.JOptionPane;
 
@@ -99,9 +98,10 @@ public class GenerateStartCommand {
         String[] cpath = {
         		//Path to myself:
         		//LoaderLoader.class.getProtectionDomain().getCodeSource().getLocation().toURI().getPath(),
-        		//The classpath that i used to find the minecraft launcher
         		//Does contain myself :D
         		System.getProperty("java.class.path"),
+        		//The Minecraft-Jar-Launcher:
+        		conf.getMinecraftJarLauncher(),
         		//Minecraft-Standard-Libs
         		conf.getMinecraftBaseFolder()+"bin/jinput.jar",
         		conf.getMinecraftBaseFolder()+"bin/lwjgl.jar",

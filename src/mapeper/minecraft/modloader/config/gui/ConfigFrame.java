@@ -205,6 +205,7 @@ public class ConfigFrame extends JFrame implements ActionListener {
 		nameAndClassChooser.setNameAndClass(conf.getClassname(), conf.getPlayerName());
 		filesAndFolderChooser.setJavaExecutable(conf.getJavaExecutable());
 		filesAndFolderChooser.setMinecraftFolder(conf.getMinecraftBaseFolder());
+		filesAndFolderChooser.setMinecraftJarLauncher(conf.getMinecraftJarLauncher());
 		memChooser.setMemory(conf.getMinMemory(), conf.getMaxMemory());	
 		mods.setModURLs(conf.getModURLs());
 		dirty.clear();
@@ -246,6 +247,7 @@ public class ConfigFrame extends JFrame implements ActionListener {
 		conf.setPlayerName(nameAndClassChooser.getPlayername());
 		conf.setJavaExecutable(filesAndFolderChooser.getJavaExecutable());
 		conf.setMinecraftBaseFolder(filesAndFolderChooser.getMinecraftFolder());
+		conf.setMinecraftJarLauncher(filesAndFolderChooser.getMinecraftJarLauncher());
 		conf.setMinMemory(memChooser.getMinMemory());
 		conf.setMaxMemory(memChooser.getMaxMemory());
 		conf.setModURLs(mods.getModURLS());

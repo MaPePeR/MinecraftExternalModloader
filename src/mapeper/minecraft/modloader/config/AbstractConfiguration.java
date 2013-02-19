@@ -5,19 +5,19 @@ import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
-import java.net.MalformedURLException;
-import java.net.URL;
 import java.util.Properties;
 
 public abstract class AbstractConfiguration {
 
 	protected String javaExecutable;
 	protected String minecraftBaseFolder;
+	protected String minecraftJarLauncher;
 	protected int minMemory;
 	protected int maxMemory;
 	protected String classname;
 	protected String playerName;
 	protected String[] modURLs;
+	
 
 	public static Configuration loadFromFile(File f)
 			throws FileNotFoundException, IOException {
@@ -45,6 +45,10 @@ public abstract class AbstractConfiguration {
 
 	public String getMinecraftBaseFolder() {
 		return minecraftBaseFolder;
+	}
+	
+	public String getMinecraftJarLauncher() {
+		return minecraftJarLauncher;
 	}
 
 	public int getMinMemory() {
@@ -78,7 +82,9 @@ public abstract class AbstractConfiguration {
 		}catch(NumberFormatException e){System.err.println("Could not read maxMemory!");maxMemory=0;}
 		javaExecutable=prop.getProperty("mem.java");
 		minecraftBaseFolder=prop.getProperty("mem.baseFolder");
+		minecraftJarLauncher=prop.getProperty("mem.minecraftJarLauncher");
 		playerName=prop.getProperty("mem.playername");
+		
 		if(prop.getProperty("mem.mods")!=null)
 		{
 			String[] modBuf = prop.getProperty("mem.mods").split("\n");
@@ -113,6 +119,7 @@ public abstract class AbstractConfiguration {
 		prop.setProperty("mem.maxMemory", ""+maxMemory);
 		prop.setProperty("mem.java", ""+javaExecutable);
 		prop.setProperty("mem.baseFolder", minecraftBaseFolder);
+		prop.setProperty("mem.minecraftJarLauncher", minecraftJarLauncher);
 		prop.setProperty("mem.playername", playerName);
 		StringBuilder sb = new StringBuilder();
 		for(String u: modURLs)

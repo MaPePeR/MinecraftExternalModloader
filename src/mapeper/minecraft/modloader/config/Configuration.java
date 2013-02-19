@@ -1,6 +1,5 @@
 package mapeper.minecraft.modloader.config;
 
-import java.net.URL;
 
 public class Configuration extends AbstractConfiguration {
 	public void setJavaExecutable(String javaExecutable) {
@@ -9,6 +8,9 @@ public class Configuration extends AbstractConfiguration {
 
 	public void setMinecraftBaseFolder(String minecraftBaseFolder) {
 		this.minecraftBaseFolder = minecraftBaseFolder;
+	}
+	public void setMinecraftJarLauncher(String minecraftJarLauncher) {
+		this.minecraftJarLauncher = minecraftJarLauncher;
 	}
 
 	public void setMinMemory(int minMemory) {

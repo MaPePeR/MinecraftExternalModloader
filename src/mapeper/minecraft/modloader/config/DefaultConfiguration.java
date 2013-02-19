@@ -1,8 +1,6 @@
 package mapeper.minecraft.modloader.config;
 
 import java.io.File;
-import java.net.MalformedURLException;
-import java.net.URL;
 
 public class DefaultConfiguration extends AbstractConfiguration
 {
@@ -15,6 +13,7 @@ public class DefaultConfiguration extends AbstractConfiguration
 	{
 		this.classname="net.minecraft.LauncherFrame";
 		this.javaExecutable="java";
+		this.minecraftJarLauncher="./minecraft.jar";
 		this.minMemory=0;
 		this.maxMemory=1024;
 		this.playerName="";
