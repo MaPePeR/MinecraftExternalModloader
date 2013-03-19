@@ -86,7 +86,7 @@ public class MemoryConfigGUI extends JPanel implements ActionListener {
 			JSpinner spinner = (JSpinner)e.getSource();
 			if(spinner.isEnabled())
 			{
-				spinner.setValue((int)spinner.getValue()-e.getWheelRotation()*32);
+				spinner.setValue((Integer)spinner.getValue()-e.getWheelRotation()*32);
 				dirty.setDirty();
 			}
 		}
@@ -122,10 +122,10 @@ public class MemoryConfigGUI extends JPanel implements ActionListener {
 	}
 	public int getMinMemory()
 	{
-		return (int) minSpinner.getValue();
+		return (Integer) minSpinner.getValue();
 	}
 	public int getMaxMemory()
 	{
-		return (int) maxSpinner.getValue();
+		return (Integer) maxSpinner.getValue();
 	}
 }
