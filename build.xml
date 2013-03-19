@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <project default="create_jar" name="">
 	<target name="compile">
-		<javac srcdir="src" destdir="bin" includeantruntime="false"/>
+		<javac target="1.6" srcdir="src" destdir="bin" includeantruntime="false"/>
 	</target>
     <target name="create_jar" depends="compile">
     	<delete dir="dist"/>
