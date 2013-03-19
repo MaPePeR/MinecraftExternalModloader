@@ -159,7 +159,8 @@ public class ConfigFrame extends JFrame implements ActionListener {
 				ArrayList<String> command = GenerateStartCommand.fromConfiguration(this.createConfiguration());
 				System.out.println(Arrays.deepToString(command.toArray()));
 				ProcessBuilder localProcessBuilder = new ProcessBuilder(command);
-				localProcessBuilder.inheritIO();
+				//TODO: Showing Output
+				//localProcessBuilder.inheritIO(); Nobody reads the Output of the GUI anyways
 				localProcessBuilder.start();
 			} catch (IOException e1) {
 				JOptionPane.showMessageDialog(this, e1.getMessage());

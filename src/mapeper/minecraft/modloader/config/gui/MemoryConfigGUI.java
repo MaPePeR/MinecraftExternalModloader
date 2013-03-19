@@ -17,7 +17,7 @@ import javax.swing.SpinnerNumberModel;
 import mapeper.minecraft.modloader.config.DefaultConfiguration;
 
 public class MemoryConfigGUI extends JPanel implements ActionListener {
-	JComboBox<String> dropDown = new JComboBox<String>(new String[]{"Minecraft-Default","Java-Default","Custom"});
+	JComboBox dropDown = new JComboBox(new String[]{"Minecraft-Default","Java-Default","Custom"});
 	JLabel minLabel = new JLabel("Min:");
 	JLabel maxLabel = new JLabel("Max:");
 	JSpinner minSpinner = new JSpinner(new SpinnerNumberModel());

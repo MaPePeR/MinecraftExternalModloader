@@ -1,6 +1,7 @@
 package mapeper.minecraft.modloader;
 
 import java.io.File;
+import java.io.InputStream;
 import java.util.ArrayList;
 
 import javax.swing.JOptionPane;
@@ -85,10 +86,17 @@ public class GenerateStartCommand {
         else
         {
 	        ProcessBuilder localProcessBuilder = new ProcessBuilder(localArrayList);
-	        //For Terminal-Output
-	        localProcessBuilder.inheritIO();
 	        //Starting it!
-			localProcessBuilder.start();
+			Process proc = localProcessBuilder.start();
+			//Redirecting Output
+			InputStream is = proc.getInputStream();
+			int count;
+			byte b[]=new byte[1024];
+			while((count=is.read(b))!=-1)
+			{
+				System.out.write(b,0,count);
+			}
+			
         }
 	}
 	public static ArrayList<String> fromConfiguration(AbstractConfiguration conf)

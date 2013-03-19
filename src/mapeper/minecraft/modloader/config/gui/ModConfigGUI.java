@@ -18,8 +18,8 @@ import javax.swing.ListSelectionModel;
 public class ModConfigGUI extends JPanel implements ActionListener {
 	DirtyState dirty;
 	
-	DefaultListModel<String> listModel = new DefaultListModel<String>();
-	JList<String> modList=new JList<String>(listModel);
+	DefaultListModel listModel = new DefaultListModel();
+	JList modList=new JList(listModel);
 	JScrollPane scrollPane= new JScrollPane(modList);
 	JFileChooser fileChooser = new JFileChooser();
 	
@@ -82,7 +82,7 @@ public class ModConfigGUI extends JPanel implements ActionListener {
 			{
 				int maxSelection=modList.getMaxSelectionIndex();
 				int minSelection=modList.getMinSelectionIndex();
-				String toMove = listModel.remove(modList.getMinSelectionIndex()-1);
+				String toMove = (String) listModel.remove(modList.getMinSelectionIndex()-1);
 				listModel.add(modList.getMaxSelectionIndex()+1, toMove);
 				modList.setSelectionInterval(minSelection-1, maxSelection-1);
 			}
@@ -93,7 +93,7 @@ public class ModConfigGUI extends JPanel implements ActionListener {
 			{
 				int maxSelection=modList.getMaxSelectionIndex();
 				int minSelection=modList.getMinSelectionIndex();
-				String toMove = listModel.remove(maxSelection+1);
+				String toMove = (String) listModel.remove(maxSelection+1);
 				listModel.add(minSelection, toMove);
 				modList.setSelectionInterval(minSelection+1, maxSelection+1);
 			}
